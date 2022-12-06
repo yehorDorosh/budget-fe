@@ -1,10 +1,9 @@
-import { NavLink } from 'react-router-dom';
+import NavBar from '../../navbar/NavBar';
 
 const Header = () => {
   return (
     <header>
-      <NavLink to="/">Home</NavLink>
-      <NavLink to="/budget">Budget</NavLink>
+      <NavBar />
     </header>
   );
 };
