@@ -1,14 +1,14 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { weatherData } from '../../types';
 
 interface weatherState {
-  weatherData: weatherData[]
+  weatherData: weatherData[];
 }
 
 const initialState: weatherState = {
-  weatherData: []
-}
+  weatherData: [],
+};
 
 const weatherSlice = createSlice({
   name: 'weather',
@@ -16,7 +16,7 @@ const weatherSlice = createSlice({
   reducers: {
     setWeatherData(state, action: PayloadAction<weatherData[]>) {
       state.weatherData = action.payload;
-    }
+    },
   },
 });
 

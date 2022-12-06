@@ -1,19 +1,19 @@
 import { weatherActions } from './weather-slice';
-import {weatherData} from "../../types";
-import {AppDispatch} from "../index";
+import { weatherData } from '../../types';
+import { AppDispatch } from '../index';
 
 type fetchedWeatherItem = {
-  id: string,
-  reg_date: string,
-  t: string,
-  p: string,
-  v: string,
-  a: string,
-}
+  id: string;
+  reg_date: string;
+  t: string;
+  p: string;
+  v: string;
+  a: string;
+};
 
 export const fetchWeather = (req: any) => {
   return async (dispatch: AppDispatch) => {
-    const currentDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+    const currentDate = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
     const res = await fetch(`http://35.178.207.100/api/weather.php?id=1&date=${currentDate}`);
     if (!res.ok) throw Error('Response failed');
     const resData = await res.json();
@@ -25,7 +25,7 @@ export const fetchWeather = (req: any) => {
         p: +item.p,
         v: +item.v,
         a: +item.a,
-      }
+      };
     });
     console.log(resData);
     dispatch(weatherActions.setWeatherData(weatherData));
