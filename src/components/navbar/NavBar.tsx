@@ -2,6 +2,8 @@ import { NavLink } from 'react-router-dom';
 import { Fragment, useState } from 'react';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
+import BackDrop from '../ui/backdrop/BackDrop';
+
 const NavBar = () => {
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
 
@@ -66,22 +68,7 @@ const NavBar = () => {
           </CSSTransition>
         </div>
       </div>
-      <CSSTransition
-        mountOnEnter
-        unmountOnExit
-        in={menuIsOpen}
-        timeout={150}
-        classNames={{
-          enter: 'showing',
-          enterActive: 'showing',
-          enterDone: 'show',
-          exit: 'hiding',
-          exitActive: 'hiding',
-          exitDone: '',
-        }}
-      >
-        <div className="offcanvas-backdrop fade" onClick={burgerHandler} />
-      </CSSTransition>
+      <BackDrop timeout={150} show={menuIsOpen} onClick={burgerHandler} />
     </Fragment>
   );
 };
