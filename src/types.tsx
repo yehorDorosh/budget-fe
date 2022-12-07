@@ -8,6 +8,7 @@ export interface weatherData {
 };
 
 export interface link {
+  page: string,
   label: string,
   path: string,
 };

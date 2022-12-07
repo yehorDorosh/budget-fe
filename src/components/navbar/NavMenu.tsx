@@ -2,13 +2,13 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
-import { links } from '../../types';
+import { links as linksType } from '../../types';
 
 interface NavMenuProps {
-  show: boolean,
-  onClosing(): void,
-  links: links,
-};
+  show: boolean;
+  onClosing(): void;
+  links: linksType;
+}
 
 const NavMenu: React.FC<NavMenuProps> = (props) => {
   return (
@@ -43,15 +43,13 @@ const NavMenu: React.FC<NavMenuProps> = (props) => {
         </div>
         <div className="offcanvas-body">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {
-              props.links.map((link, i) => (
-                <li key={i + link.path} className="nav-item">
-                  <NavLink to={link.path} className="nav-link">
-                    { link.label }
-                  </NavLink>
-                </li>
-              ))
-            }
+            {props.links.map((link, i) => (
+              <li key={i + link.path} className="nav-item">
+                <NavLink to={link.path} className="nav-link" onClick={props.onClosing}>
+                  {link.label}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
