@@ -10,8 +10,12 @@ const NavBar = () => {
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
   const links = useAppSelector(state => state.navigation.links);
 
-  function menuHandler() {
+  function burgerHandler() {
     setMenuIsOpen((prevState) => !prevState);
+  }
+
+  function closingHandler() {
+    setMenuIsOpen(false);
   }
 
   return (
@@ -19,11 +23,11 @@ const NavBar = () => {
       <div className="navbar navbar-expand-md navbar-dark bg-primary">
         <div className="container">
           <SiteLogo />
-          <BurgerNav onClick={menuHandler} />
-          <NavMenu show={menuIsOpen} onClosing={menuHandler} links={links} />
+          <BurgerNav onClick={burgerHandler} />
+          <NavMenu show={menuIsOpen} onClosing={closingHandler} links={links} />
         </div>
       </div>
-      <BackDrop timeout={150} show={menuIsOpen} onClick={menuHandler} />
+      <BackDrop timeout={150} show={menuIsOpen} onClick={closingHandler} />
     </Fragment>
   );
 };
