@@ -3,10 +3,13 @@ import { NavLink } from 'react-router-dom';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
 import { links as linksType } from '../../types';
+import ButtonClose from '../ui/button/ButtonClose';
 
 interface NavMenuProps {
   show: boolean;
+
   onClosing(): void;
+
   links: linksType;
 }
 
@@ -34,12 +37,7 @@ const NavMenu: React.FC<NavMenuProps> = (props) => {
           <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
             Pages
           </h5>
-          <button
-            type="button"
-            className="btn-close"
-            aria-label="Close"
-            onClick={props.onClosing}
-          ></button>
+          <ButtonClose onClosing={props.onClosing} />
         </div>
         <div className="offcanvas-body">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
