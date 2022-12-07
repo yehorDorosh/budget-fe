@@ -1,8 +1,16 @@
-import { NavLink } from 'react-router-dom';
 import { Fragment, useState } from 'react';
-import CSSTransition from 'react-transition-group/CSSTransition';
+
+import { links } from '../../types';
 
 import BackDrop from '../ui/backdrop/BackDrop';
+import NavMenu from './NavMenu';
+import BurgerNav from '../ui/button/BurgerNav';
+import SiteLogo from './SiteLogo';
+
+const LINKS: links = [
+  { label: 'Home', path: '/' },
+  { label: 'Budget', path: '/budget' },
+];
 
 const NavBar = () => {
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
@@ -15,57 +23,9 @@ const NavBar = () => {
     <Fragment>
       <div className="navbar navbar-expand-md navbar-dark bg-primary">
         <div className="container">
-          <NavLink to="/" className="navbar-brand">
-            <img src="logo192.png" alt="dollar sign" width="30" height="30" />
-          </NavLink>
-          <button
-            className="navbar-toggler"
-            type="button"
-            aria-controls="offcanvasNavbar"
-            onClick={burgerHandler}
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <CSSTransition
-            in={menuIsOpen}
-            timeout={300}
-            classNames={{
-              enter: 'showing',
-              enterActive: 'showing',
-              enterDone: 'show',
-              exit: 'hiding',
-              exitActive: 'hiding',
-              exitDone: '',
-            }}
-          >
-            <div
-              id="offcanvasNavbar"
-              className="offcanvas bg-primary offcanvas-end"
-              tabIndex={-1}
-              aria-labelledby="offcanvasNavbarLabel"
-            >
-              <div className="offcanvas-header">
-                <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
-                  Offcanvas
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  aria-label="Close"
-                  onClick={burgerHandler}
-                ></button>
-              </div>
-              <div className="offcanvas-body">
-                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li className="nav-item">
-                    <NavLink to="/budget" className="nav-link">
-                      Budget page
-                    </NavLink>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </CSSTransition>
+          <SiteLogo />
+          <BurgerNav onClick={burgerHandler} />
+          <NavMenu show={menuIsOpen} onClosing={burgerHandler} links={LINKS} />
         </div>
       </div>
       <BackDrop timeout={150} show={menuIsOpen} onClick={burgerHandler} />
