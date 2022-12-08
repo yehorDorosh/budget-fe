@@ -2,15 +2,13 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
-import { links as linksType } from '../../types';
+import { LinksT } from '../../types';
 import ButtonClose from '../ui/button/ButtonClose';
 
 interface NavMenuProps {
   show: boolean;
-
   onClosing(): void;
-
-  links: linksType;
+  links: LinksT;
 }
 
 const NavMenu: React.FC<NavMenuProps> = (props) => {

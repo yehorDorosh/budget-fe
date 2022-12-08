@@ -1,21 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { weatherData } from '../../types';
+import {SensorType, WeatherDataType} from '../../types';
 
-interface weatherState {
-  weatherData: weatherData[];
+export type WeatherStateT = {
+  [key in SensorType]: Partial<WeatherDataType>;
 }
 
-const initialState: weatherState = {
-  weatherData: [],
+const initialState: WeatherStateT = {
+  [SensorType.floor1]: {},
+  [SensorType.floor2]: {},
+  [SensorType.outside]: {}
 };
 
 const weatherSlice = createSlice({
   name: 'weather',
   initialState,
   reducers: {
-    setWeatherData(state, action: PayloadAction<weatherData[]>) {
-      state.weatherData = action.payload;
+    setWeatherData(state, action: PayloadAction<{ id: keyof WeatherStateT, weather: WeatherDataType}>) {
+      state[action.payload.id] = action.payload.weather;
     },
   },
 });

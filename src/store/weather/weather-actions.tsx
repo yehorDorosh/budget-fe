@@ -1,33 +1,28 @@
-import { weatherActions } from './weather-slice';
-import { weatherData } from '../../types';
-import { AppDispatch } from '../index';
+import { AppDispatch, RootState } from '../index';
 
-type fetchedWeatherItem = {
-  id: string;
-  reg_date: string;
-  t: string;
-  p: string;
-  v: string;
-  a: string;
-};
+import { weatherActions, WeatherStateT } from './weather-slice';
+import { resType, SensorType, WeatherDataType } from '../../types';
 
-export const fetchWeather = (req: any) => {
-  return async (dispatch: AppDispatch) => {
-    const currentDate = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
-    const res = await fetch(`http://35.178.207.100/api/weather.php?id=1&date=${currentDate}`);
-    if (!res.ok) throw Error('Response failed');
-    const resData = await res.json();
-    const weatherData: weatherData[] = resData.data.map((item: fetchedWeatherItem): weatherData => {
-      return {
-        id: item.id,
-        reg_date: item.reg_date,
-        t: +item.t,
-        p: +item.p,
-        v: +item.v,
-        a: +item.a,
-      };
-    });
-    console.log(resData);
-    dispatch(weatherActions.setWeatherData(weatherData));
+export const fetchWeather = (id: keyof WeatherStateT) => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    const host = getState().root.host;
+    const res = await fetch(`${host}/api/weather.php?id=${id}`);
+    if (!res.ok) throw new Error('fetchWeather: Response failed');
+    const resData: resType = await res.json();
+    const weather = resData.data[0];
+    if (!weather) return;
+    const weatherData: WeatherDataType = {
+      id: weather.id,
+      reg_date: weather.reg_date,
+      t: +weather.t,
+      p: +weather.p,
+      v: +weather.v,
+    };
+    dispatch(
+      weatherActions.setWeatherData({
+        id,
+        weather: weatherData,
+      }),
+    );
   };
 };

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { links as linksType } from '../../types';
+import { LinksT } from '../../types';
 
 interface navigationState {
-  links: linksType;
+  links: LinksT;
 }
 
 const initialState: navigationState = {
