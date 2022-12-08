@@ -16,7 +16,7 @@ export type LinksT = LinkT[];
 
 export enum SensorType {
   floor1 = '1',
-  floor2 = 'second-floor',
+  floor2 = '2nd-floor',
   outside = 'out-of-door',
 };
 

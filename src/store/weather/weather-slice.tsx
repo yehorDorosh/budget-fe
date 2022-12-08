@@ -3,13 +3,21 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {SensorType, WeatherDataType} from '../../types';
 
 export type WeatherStateT = {
-  [key in SensorType]: Partial<WeatherDataType>;
+  [key in SensorType]: WeatherDataType;
 }
 
+const defaultWeatherData: WeatherDataType = {
+  id: 'N/A',
+  reg_date: 'N/A',
+  t: 0,
+  p: 0,
+  v: 0,
+};
+
 const initialState: WeatherStateT = {
-  [SensorType.floor1]: {},
-  [SensorType.floor2]: {},
-  [SensorType.outside]: {}
+  [SensorType.floor1]: defaultWeatherData,
+  [SensorType.floor2]: defaultWeatherData,
+  [SensorType.outside]: defaultWeatherData,
 };
 
 const weatherSlice = createSlice({
