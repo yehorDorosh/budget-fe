@@ -40,7 +40,7 @@ const NavMenu: React.FC<NavMenuProps> = (props) => {
           <ButtonClose onClosing={props.onClosing} />
         </div>
         <div className="offcanvas-body">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul className="navbar-nav me-auto mb-2 mb-md-0">
             {props.links.map((link, i) => (
               <li key={i + link.path} className="nav-item">
                 <NavLink to={link.path} className="nav-link" onClick={props.onClosing}>
