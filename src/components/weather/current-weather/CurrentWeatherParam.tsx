@@ -15,7 +15,7 @@ const CurrentWeatherParam: React.FC<CurrentWeatherParamProps> = (props) => {
   if (props.colorStatus) {
     const value = +props.data;
     if (value >= props.colorStatus.max) statusClass = 'text-success';
-    else if (props.colorStatus.min < value) statusClass = 'text-bg-warning';
+    else if (props.colorStatus.min < value) statusClass = 'text-warning';
     else if (value <= props.colorStatus.min) statusClass = 'text-danger';
   }
 
