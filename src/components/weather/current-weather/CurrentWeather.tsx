@@ -2,6 +2,7 @@ import { v4 as uuid } from 'uuid';
 
 import { useAppSelector } from '../../../hooks/useReduxTS';
 import { SensorType, WeatherDataType } from '../../../types';
+import useTime from '../../../hooks/useTime';
 
 import CurrentWeatherRow from './CurrentWeatherRow';
 import CurrentWeatherParam from './CurrentWeatherParam';
@@ -9,18 +10,26 @@ import CurrentWeatherParam from './CurrentWeatherParam';
 const CurrentWeather = () => {
   enum Label {
     id = 'ID',
-    data = 'Data, time',
+    data = 'Time',
     t = 'Temperature, C°',
     p = 'Pressure, Pa',
     v = 'Power supply, V',
   }
 
-  const weatherData: WeatherDataType[] = useAppSelector((state) => {
+  let weatherData: WeatherDataType[] = useAppSelector((state) => {
     return [
       state.weather[SensorType.floor1],
       state.weather[SensorType.floor2],
       state.weather[SensorType.outside],
     ];
+  });
+
+  weatherData = weatherData.map((sensor) => {
+    const { time: newTime } = useTime(sensor.reg_date);
+    return {
+      ...sensor,
+      reg_date: newTime,
+    };
   });
 
   return (
