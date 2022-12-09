@@ -1,0 +1,33 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+.rounded-top-md {
+  @extend .rounded;
+
+  @include media-breakpoint-up(md) {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+}
+
+.rounded-bottom-md {
+  @extend .rounded;
+
+  @include media-breakpoint-up(md) {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+}
+
+.rounded-none-md {
+  @extend .rounded;
+
+  @include media-breakpoint-up(md) {
+    border-radius: 0 !important;
+  }
+}
+
+.border-none-md {
+  @include media-breakpoint-up(md) {
+    border: none !important;
+  }
+}

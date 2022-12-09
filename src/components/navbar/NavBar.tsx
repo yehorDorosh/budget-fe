@@ -8,7 +8,7 @@ import SiteLogo from './SiteLogo';
 
 const NavBar = () => {
   const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
-  const links = useAppSelector(state => state.navigation.links);
+  const links = useAppSelector((state) => state.navigation.links);
 
   function burgerHandler() {
     setMenuIsOpen((prevState) => !prevState);

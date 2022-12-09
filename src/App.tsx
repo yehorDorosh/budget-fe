@@ -18,7 +18,7 @@ function App() {
       <PageLayout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path={ dispatch(getPath('Budget')) } element={<Budget />} />
+          <Route path={dispatch(getPath('Budget'))} element={<Budget />} />
         </Routes>
       </PageLayout>
     </Fragment>

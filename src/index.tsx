@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import './index.scss';
+import './styles/index.scss';
 import App from './App';
 import store from './store/index';
 // import reportWebVitals from './reportWebVitals';
@@ -13,7 +13,7 @@ root.render(
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </Provider>,
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

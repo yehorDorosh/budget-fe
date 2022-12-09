@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 import { LinksT } from '../../types';
 
@@ -7,17 +7,13 @@ interface navigationState {
 }
 
 const initialState: navigationState = {
-  links: [
-    { page: 'Budget', label: 'Budget', path: '/budget' },
-  ],
+  links: [{ page: 'Budget', label: 'Budget', path: '/budget' }],
 };
 
 const navigationSlice = createSlice({
   name: 'navigation',
   initialState,
-  reducers: {
-
-  },
+  reducers: {},
 });
 
 export const navigationActions = navigationSlice.actions;

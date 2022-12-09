@@ -24,7 +24,7 @@ export const fetchWeather = (id: keyof WeatherStateT) => {
         weatherActions.setWeatherData({
           id,
           weather: weatherData,
-        }),
+        })
       );
     } catch (e) {
       consoleLogError(e);

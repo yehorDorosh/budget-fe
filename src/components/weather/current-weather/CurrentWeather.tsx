@@ -1,7 +1,10 @@
+import { v4 as uuid } from 'uuid';
+
+import { useAppSelector } from '../../../hooks/useReduxTS';
+import { SensorType, WeatherDataType } from '../../../types';
+
 import CurrentWeatherRow from './CurrentWeatherRow';
 import CurrentWeatherParam from './CurrentWeatherParam';
-import { useAppSelector } from '../../../hooks/useReduxTS';
-import { SensorType } from '../../../types';
 
 const CurrentWeather = () => {
   enum Label {
@@ -11,34 +14,46 @@ const CurrentWeather = () => {
     p = 'Pressure, Pa',
     v = 'Power supply, V',
   }
-  const floor1 = useAppSelector((s) => s.weather[SensorType.floor1]);
-  const floor2 = useAppSelector((s) => s.weather[SensorType.floor2]);
-  const outside = useAppSelector((s) => s.weather[SensorType.outside]);
+
+  const weatherData: WeatherDataType[] = useAppSelector((state) => {
+    return [
+      state.weather[SensorType.floor1],
+      state.weather[SensorType.floor2],
+      state.weather[SensorType.outside],
+    ];
+  });
 
   return (
     <div className="card container">
       <div className="card-body vstack gap-2 gap-md-0">
-        <CurrentWeatherRow>
-          <CurrentWeatherParam data={SensorType.floor1} label={Label.id} showLabel />
-          <CurrentWeatherParam data={floor1.reg_date} label={Label.data} showLabel />
-          <CurrentWeatherParam data={floor1.t} label={Label.t} showLabel />
-          <CurrentWeatherParam data={floor1.p} label={Label.p} showLabel />
-          <CurrentWeatherParam data={floor1.v} label={Label.v} showLabel />
-        </CurrentWeatherRow>
-        <CurrentWeatherRow>
-          <CurrentWeatherParam data={SensorType.floor2} label={Label.id} showLabel />
-          <CurrentWeatherParam data={floor2.reg_date} label={Label.data} showLabel />
-          <CurrentWeatherParam data={floor2.t} label={Label.t} showLabel />
-          <CurrentWeatherParam data={floor2.p} label={Label.p} showLabel />
-          <CurrentWeatherParam data={floor2.v} label={Label.v} showLabel />
-        </CurrentWeatherRow>
-        <CurrentWeatherRow>
-          <CurrentWeatherParam data={SensorType.outside} label={Label.id} showLabel />
-          <CurrentWeatherParam data={outside.reg_date} label={Label.data} showLabel />
-          <CurrentWeatherParam data={outside.t} label={Label.t} showLabel />
-          <CurrentWeatherParam data={outside.p} label={Label.p} showLabel />
-          <CurrentWeatherParam data={outside.v} label={Label.v} showLabel />
-        </CurrentWeatherRow>
+        {weatherData.map((sensor, i, arr) => {
+          let rounded: string;
+          switch (i) {
+            case 0:
+              rounded = 'rounded-top-md ';
+              break;
+            case arr.length - 1:
+              rounded = 'rounded-bottom-md ';
+              break;
+            default:
+              rounded = 'rounded-none-md ';
+          }
+          const rowClasses = `${rounded}text-bg-secondary ${i % 2 !== 0 ? ' bg-opacity-75' : ''}`;
+          return (
+            <CurrentWeatherRow key={uuid()} className={rowClasses}>
+              <CurrentWeatherParam data={sensor.id} label={Label.id} showLabel={i === 0} />
+              <CurrentWeatherParam data={sensor.reg_date} label={Label.data} showLabel={i === 0} />
+              <CurrentWeatherParam data={sensor.t} label={Label.t} showLabel={i === 0} />
+              <CurrentWeatherParam data={sensor.p} label={Label.p} showLabel={i === 0} />
+              <CurrentWeatherParam
+                data={sensor.v}
+                label={Label.v}
+                showLabel={i === 0}
+                colorStatus={{ min: 2.8, max: 3.6 }}
+              />
+            </CurrentWeatherRow>
+          );
+        })}
       </div>
     </div>
   );
