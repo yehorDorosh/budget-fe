@@ -10,7 +10,7 @@ import CurrentWeatherParam from './CurrentWeatherParam';
 const CurrentWeather = () => {
   enum Label {
     id = 'ID',
-    data = 'Time',
+    data = 'Date',
     t = 'Temperature, C°',
     p = 'Pressure, Pa',
     v = 'Power supply, V',
@@ -25,10 +25,10 @@ const CurrentWeather = () => {
   });
 
   weatherData = weatherData.map((sensor) => {
-    const { time: newTime } = useTime(sensor.reg_date);
+    const { time: newTime, date: newDate } = useTime(sensor.reg_date);
     return {
       ...sensor,
-      reg_date: newTime,
+      reg_date: `${newTime} ${newDate}`,
     };
   });
 
@@ -50,11 +50,12 @@ const CurrentWeather = () => {
           const rowClasses = `${rounded}text-bg-secondary ${i % 2 !== 0 ? ' bg-opacity-75' : ''}`;
           return (
             <CurrentWeatherRow key={uuid()} className={rowClasses}>
-              <CurrentWeatherParam data={sensor.id} label={Label.id} showLabel={i === 0} />
-              <CurrentWeatherParam data={sensor.reg_date} label={Label.data} showLabel={i === 0} />
-              <CurrentWeatherParam data={sensor.t} label={Label.t} showLabel={i === 0} />
-              <CurrentWeatherParam data={sensor.p} label={Label.p} showLabel={i === 0} />
+              <CurrentWeatherParam className="col-6 col-md-2" data={sensor.id} label={Label.id} showLabel={i === 0} />
+              <CurrentWeatherParam className="col-6 col-md-4" data={sensor.reg_date} label={Label.data} showLabel={i === 0} />
+              <CurrentWeatherParam className="col-6 col-md-2" data={sensor.t} label={Label.t} showLabel={i === 0} />
+              <CurrentWeatherParam className="col-6 col-md-2" data={sensor.p} label={Label.p} showLabel={i === 0} />
               <CurrentWeatherParam
+                className="col-6 col-md-2"
                 data={sensor.v}
                 label={Label.v}
                 showLabel={i === 0}
