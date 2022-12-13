@@ -6,6 +6,7 @@ import useTime from '../../../hooks/useTime';
 
 import CurrentWeatherRow from './CurrentWeatherRow';
 import CurrentWeatherParam from './CurrentWeatherParam';
+import { defaultWeatherData } from '../../../store/weather/weather-slice';
 
 const CurrentWeather = () => {
   enum Label {
@@ -17,10 +18,13 @@ const CurrentWeather = () => {
   }
 
   let weatherData: WeatherDataType[] = useAppSelector((state) => {
+    const floor1 = state.weather[SensorType.floor1].at(-1);
+    const floor2 = state.weather[SensorType.floor2].at(-1);
+    const outside = state.weather[SensorType.outside].at(-1);
     return [
-      state.weather[SensorType.floor1],
-      state.weather[SensorType.floor2],
-      state.weather[SensorType.outside],
+      floor1 ?? defaultWeatherData[0],
+      floor2 ?? defaultWeatherData[0],
+      outside ?? defaultWeatherData[0],
     ];
   });
 
@@ -50,10 +54,30 @@ const CurrentWeather = () => {
           const rowClasses = `${rounded}text-bg-secondary ${i % 2 !== 0 ? ' bg-opacity-75' : ''}`;
           return (
             <CurrentWeatherRow key={uuid()} className={rowClasses}>
-              <CurrentWeatherParam className="col-6 col-md-2" data={sensor.id} label={Label.id} showLabel={i === 0} />
-              <CurrentWeatherParam className="col-6 col-md-4" data={sensor.reg_date} label={Label.data} showLabel={i === 0} />
-              <CurrentWeatherParam className="col-6 col-md-2" data={sensor.t} label={Label.t} showLabel={i === 0} />
-              <CurrentWeatherParam className="col-6 col-md-2" data={sensor.p} label={Label.p} showLabel={i === 0} />
+              <CurrentWeatherParam
+                className="col-6 col-md-2"
+                data={sensor.id}
+                label={Label.id}
+                showLabel={i === 0}
+              />
+              <CurrentWeatherParam
+                className="col-6 col-md-4"
+                data={sensor.reg_date}
+                label={Label.data}
+                showLabel={i === 0}
+              />
+              <CurrentWeatherParam
+                className="col-6 col-md-2"
+                data={sensor.t}
+                label={Label.t}
+                showLabel={i === 0}
+              />
+              <CurrentWeatherParam
+                className="col-6 col-md-2"
+                data={sensor.p}
+                label={Label.p}
+                showLabel={i === 0}
+              />
               <CurrentWeatherParam
                 className="col-6 col-md-2"
                 data={sensor.v}

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import getLocale from '../../../utils/locale';
+
 interface CurrentWeatherParamProps {
   data: number | string;
   label: string;
@@ -8,10 +10,10 @@ interface CurrentWeatherParamProps {
     min: number;
     max: number;
   };
-  className: string,
+  className: string;
 }
 
-const CurrentWeatherParam: React.FC<CurrentWeatherParamProps> = (props ) => {
+const CurrentWeatherParam: React.FC<CurrentWeatherParamProps> = (props) => {
   let statusClass = '';
   if (props.colorStatus) {
     const value = +props.data;
@@ -29,11 +31,12 @@ const CurrentWeatherParam: React.FC<CurrentWeatherParamProps> = (props ) => {
             ? props.data.split(' ').map((str, i) => {
                 return (
                   <span key={`${i}-${str}`} className={i !== 0 ? 'd-none d-md-inline' : ''}>
-                    {str}{i === 0 && '\u00A0'}
+                    {str}
+                    {i === 0 && '\u00A0'}
                   </span>
                 );
               })
-            : props.data}
+            : new Intl.NumberFormat(`${getLocale()}`, {}).format(props.data)}
         </div>
       </div>
     </div>

@@ -3,16 +3,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SensorType, WeatherDataType } from '../../types';
 
 export type WeatherStateT = {
-  [key in SensorType]: WeatherDataType;
+  [key in SensorType]: WeatherDataType[];
 };
 
-const defaultWeatherData: WeatherDataType = {
+export const defaultWeatherData: WeatherDataType[] = [{
   id: 'N/A',
   reg_date: 'N/A',
   t: 0,
   p: 0,
   v: 0,
-};
+}];
 
 const initialState: WeatherStateT = {
   [SensorType.floor1]: defaultWeatherData,
@@ -26,7 +26,7 @@ const weatherSlice = createSlice({
   reducers: {
     setWeatherData(
       state,
-      action: PayloadAction<{ id: keyof WeatherStateT; weather: WeatherDataType }>
+      action: PayloadAction<{ id: keyof WeatherStateT; weather: WeatherDataType[] }>
     ) {
       state[action.payload.id] = action.payload.weather;
     },

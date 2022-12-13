@@ -20,6 +20,7 @@ export enum SensorType {
   outside = 'out-of-door',
 }
 
-export interface resType {
+export interface ResType {
   data: any[];
+  time: string;
 }
