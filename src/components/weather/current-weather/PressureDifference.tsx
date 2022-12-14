@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useAppSelector } from '../../../hooks/useReduxTS';
 
-import { WeatherDataType } from '../../../types';
+import { SensorType, WeatherDataType } from '../../../types';
+import range from '../../../utils/interpolation';
+import classes from './PressureDifference.module.scss';
 
 interface CoefficientsT {
   a: number;
   b: number;
 }
 
-interface PressureDifferenceProps {
-  currentPressure: number;
-}
-
-const PressureDifference: React.FC<PressureDifferenceProps> = (props) => {
-  const [pressureDifference, setPressureDifference] = useState(0);
+const PressureDifference: React.FC<{ onChange: (hours: number) => void }> = (props) => {
+  const weatherData: WeatherDataType[] = useAppSelector((state) => {
+    const arr = [
+      ...state.weather[SensorType.floor1],
+      ...state.weather[SensorType.floor2],
+      ...state.weather[SensorType.outside],
+    ];
+    return arr
+      .filter((item) => item.id !== 'N/A')
+      .sort((a, b) => {
+        return new Date(a.reg_date).getTime() - new Date(b.reg_date).getTime();
+      });
+  });
+  const pressureDifference = getPressureDifference(weatherData).diff;
 
   function approximation(data: number[]): CoefficientsT {
     const n = data.length;
@@ -27,7 +38,13 @@ const PressureDifference: React.FC<PressureDifferenceProps> = (props) => {
     return { a, b };
   }
 
-  function getPessureDifference(data: WeatherDataType[]): { diff: number; k: CoefficientsT } {
+  function getPressureDifference(data: WeatherDataType[]): { diff: number; k: CoefficientsT } {
+    if (!data.length) {
+      return {
+        diff: 0,
+        k: { a: 0, b: 0 },
+      };
+    }
     const pressureLog = data.map((sensor) => sensor.p);
     const coefficients = approximation(pressureLog);
     const y0 = coefficients.a * 1 + coefficients.b;
@@ -39,9 +56,52 @@ const PressureDifference: React.FC<PressureDifferenceProps> = (props) => {
     };
   }
 
+  function renderLeftBar(pressure: number) {
+    return range(-250, 0, 0, 50, pressure);
+  }
+
+  function renderRightBar(pressure: number) {
+    return range(0, 250, 50, 0, pressure);
+  }
+
+  function inputHandler(e: React.ChangeEvent<HTMLInputElement>) {
+    props.onChange(+e.target.value);
+  }
+
   return (
     <div className="card container">
-      <div className="card-body">dwdwd</div>
+      <div className="card-body">
+        <div className={classes['pressure-diff-container']}>
+          <p className={classes['pressure-diff']}>
+            Pressure changed on <span>{pressureDifference}Pa</span> per
+            <input type="number" defaultValue={2} onChange={inputHandler} />
+            hours.
+          </p>
+          <ul className={classes['bar-legend']}>
+            <li>-250Pa (Storm)</li>
+            <li>-200Pa</li>
+            <li>-150Pa (Rain)</li>
+            <li>-100Pa</li>
+            <li>-50Pa (No changes)</li>
+            <li>0Pa</li>
+            <li>50Pa (No changes)</li>
+            <li>100Pa</li>
+            <li>150Pa (Sunny)</li>
+            <li>200Pa</li>
+            <li>250Pa</li>
+          </ul>
+          <div className={classes['bar']}>
+            <div
+              className={classes['bar__left']}
+              style={{ left: `${renderLeftBar(pressureDifference)}%` }}
+            ></div>
+            <div
+              className={classes['bar__right']}
+              style={{ right: `${renderRightBar(pressureDifference)}%` }}
+            ></div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

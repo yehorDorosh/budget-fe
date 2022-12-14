@@ -6,13 +6,15 @@ export type WeatherStateT = {
   [key in SensorType]: WeatherDataType[];
 };
 
-export const defaultWeatherData: WeatherDataType[] = [{
-  id: 'N/A',
-  reg_date: 'N/A',
-  t: 0,
-  p: 0,
-  v: 0,
-}];
+export const defaultWeatherData: WeatherDataType[] = [
+  {
+    id: 'N/A',
+    reg_date: 'N/A',
+    t: 0,
+    p: 0,
+    v: 0,
+  },
+];
 
 const initialState: WeatherStateT = {
   [SensorType.floor1]: defaultWeatherData,
